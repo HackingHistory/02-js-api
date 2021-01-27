@@ -248,7 +248,7 @@ function drawCovidChart (json) {
    
 }
 
-
+// don't change this!
 function loadPage () {
   makeExponent()
   fetchAndRun()
