@@ -1,7 +1,8 @@
-
 // apiBase is just the base URL for the API
 // choose your own endpoint using the API docs
 const apiBase = 'https://api.opencovid.ca/',
+      // note that the last parameter `&ymd=true` has to be preserved if you want to
+      // be able to use the date-based graphing currently employed in Problem 3.
       endpoint=`timeseries?loc=ON&after=2021-01-01&ymd=true`; // replace with your own data
       
 // you shouldn't need these for the assignment but in case you want per capita figures later on
@@ -147,10 +148,11 @@ function showData (json) {
     delete obj.province;
     return obj
   })
-  
+
+  // create the table
   let newTable = makeTable(active)
   
-  let inserted = dataSection.prepend(newTable)
+  dataSection.prepend(newTable)
   let title = document.createElement('h2');
   dataSection.insertBefore(title, newTable);
   title.textContent = 'Ontario Cases in 2021'
@@ -214,7 +216,7 @@ function drawCovidChart (json) {
     options: {
       title: {
         display: true,
-        text: 'Exponential Growth'
+        text: 'Active Cases in Ontario, 2021`'
       },
       scales: {
         yAxes: [{
@@ -228,6 +230,8 @@ function drawCovidChart (json) {
           }
         }],
         xAxes:[{
+          // note that this only works because the data is presenting date info i n the format
+          // YYYY-MM-DD. So, it requires the `&ymd-true` part of the endpoint URL
           type: 'time', // comment this out, or replace with 'category', if you want to use labels instead
           ticks: {
             beginAtZero: false,
