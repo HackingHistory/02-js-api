@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Ontario COVID Vaccinations</title>
+        
+        <!-- time parser -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+        <!-- chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+        <!-- markdown-it -->
+        <script src="https://cdn.jsdelivr.net/npm/markdown-it@8.4.2/dist/markdown-it.min.js"></script>
+
+        <!-- Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+
+        <!-- CSS Reset -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+
+        <!-- Milligram CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+
+        <!-- syntax highlighting -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/javascript.min.js" integrity="sha512-agBE6bi+jY5dVB39pN6OwVMxEyol/oZlTSqip7ZN2Y4jIUDJet5E1XTyTEGfCcYo7PXVwTJmYVLgOIRUatZ/lw==" crossorigin="anonymous"></script>
+        
+       <!-- css -->
+       <link href="./style.css" rel="stylesheet"/>
+    </head>
+    <body onLoad="loadPage()">
+        <!-- <div id="onvac"></div>
+             <div class="ct-chart ct-perfect-fourth"></div> -->
+        <header>
+            <h1>Retrieving & Visualizing Data</h1>
+
+            <p>
+                These charts use data from <a href="https://opencovid.ca">the Open Covid Data Working Group</a> to display vacicnation progress in Ontario and compare per-capita values with other Canadian provinces (using population data from <a href="https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1710000901">Statistics Canada</a>).
+                See the link for more details on data sources.
+
+                Add whatever text you'd like here!
+
+            </p>
+        </header>
+
+        <!-- All your dynamic code will end up in <main>, which  -->
+        <!-- is laid out with `display: grid` -->
+        <main>
+            <!-- problem 1 goes here -->
+            <!-- notice we use `figure` tags to attach a caption to the generated charts -->
+            <!-- for problems 1 and 3 -->
+            <figure id="exponentFig">
+                <!-- chart.js expects a `canvas` element -->
+                <!-- you can learn more about canvas here:  -->
+                <!-- https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial -->
+                <canvas id="exponentChart"></canvas>
+                <figcaption id="exponentCap">Add a caption here if you like</figcaption>
+            </figure>
+
+            <!-- use this for problem 2. We're not drawing a chart so
+                 no need for a figure/canvas -->
+            <section id="covidData">
+                
+            </section>
+
+            <!-- figure for problem 3 -->
+            <figure id="covidFig">
+                <canvas id="covidChart"></canvas>
+                <figcaption id="covidCap">Say a few words about what you've decided to graph here</figcaption>
+            </figure>
+            
+        </main>
+
+        <!-- a place for your commentary to go -->
+        <section id="markdown"></section>
+        <!-- call this script at the end of the page to ensure error-free execution -->
+        <script src="./data.js"></script>
+        <script>
+         let md = window.markdownit('commonmark', {
+             html: true,
+             linkify: true}),
+             renderedcontent = "",
+             target = document.getElementById('markdown')
+         fetch('reflection.md')
+             .then(response => response.text())
+             .then(text => {
+                 target.innerHTML +=  md.render(text)
+             })
+         .catch (error => target.innerHTML += md.render(`Sorry, can't fetch your reflections. Are you running a server, e.g. with \`npm run server\`? `))
+         
+        </script>
+    </body>
+</html>
